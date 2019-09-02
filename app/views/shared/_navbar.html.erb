@@ -29,7 +29,7 @@
     </ul>
     <ul class="my-2 my-lg-0">
       <% if user_signed_in? %>
-        <li><%= link_to destroy_user_session_path, method: :delete :class => "nav-link" do %>
+        <li><%= link_to destroy_user_session_path, method: :delete, :class => "nav-link" do %>
           Logout<span class="button-right"></span><% end %>
         </li>
       <% end %>
