@@ -4,8 +4,8 @@ class PollsController < ApplicationController
   # GET /polls
   # GET /polls.json
   def index
-    @polls = Poll.all
-    @poll = Poll.new
+    @response = Response.new
+    @event = (current_user.admin? && Event.first.blank?) ? Event.new : Event.last
   end
 
   # GET /polls/1
@@ -27,15 +27,16 @@ class PollsController < ApplicationController
   def create
     @poll = Poll.new(poll_params)
 
-    respond_to do |format|
+   # respond_to do |format|
       if @poll.save
-        format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
-        format.json { render :show, status: :created, location: @poll }
+        redirect_to polls_path
+        #format.html { , notice: 'Poll was successfully created.' }
+        #format.json { render :show, status: :created, location: @poll }
       else
-        format.html { render :new }
-        format.json { render json: @poll.errors, status: :unprocessable_entity }
+       # format.html { render :new }
+       # format.json { render json: @poll.errors, status: :unprocessable_entity }
       end
-    end
+   # end
   end
 
   # PATCH/PUT /polls/1

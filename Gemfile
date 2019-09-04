@@ -37,6 +37,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 gem "bootstrap", ">= 4.3.1"
+gem 'bootstrap-datepicker-rails'
 gem 'jquery-rails'
 gem 'pusher'
 gem 'chartkick'
@@ -44,6 +45,7 @@ gem "figaro"
 gem 'devise'
 gem 'pry'
 gem 'cancancan'
+gem 'table_print'
 
 
 group :development, :test do

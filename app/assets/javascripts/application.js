@@ -15,6 +15,11 @@
 //= require activestorage
 //= require popper
 //= require bootstrap
+//= require bootstrap-datepicker
 //= require Chart.bundle
 //= require chartkick
 //= require_tree .
+
+$( document ).ready(function() {
+  $(".alert-info" ).fadeOut(3000);
+});

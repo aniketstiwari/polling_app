@@ -10,16 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_02_104618) do
+ActiveRecord::Schema.define(version: 2019_09_04_055531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "events", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "event_type"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "is_expire", default: "false"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
+  end
 
   create_table "polls", force: :cascade do |t|
     t.string "name"
     t.binary "laptop"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "user_id"
+    t.binary "vote", default: "0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_responses_on_event_id"
+    t.index ["user_id"], name: "index_responses_on_user_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -41,9 +62,17 @@ ActiveRecord::Schema.define(version: 2019_09_02_104618) do
     t.string "first_name"
     t.string "last_name"
     t.string "department"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "events", "users"
+  add_foreign_key "responses", "events"
+  add_foreign_key "responses", "users"
   add_foreign_key "roles", "users"
 end
