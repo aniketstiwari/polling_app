@@ -18,7 +18,7 @@ namespace :create_groups_and_leaders do
     elsif users_length == 1
       group_size = 1
     end
-
+    ########## Add logic for adding extra 1 of group
     group_iteration = users_length / group_size
     groups, group_columns = Array.new(2) { [] }
     
