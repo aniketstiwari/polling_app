@@ -46,7 +46,7 @@ gem 'devise'
 gem 'pry'
 gem 'cancancan'
 gem 'table_print'
-
+gem 'whenever', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

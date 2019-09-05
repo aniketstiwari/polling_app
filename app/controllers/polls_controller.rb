@@ -4,8 +4,7 @@ class PollsController < ApplicationController
   # GET /polls
   # GET /polls.json
   def index
-    @response = Response.new
-    @event = (current_user.admin? && Event.first.blank?) ? Event.new : Event.last
+    @presenter = PollsPresenter.new(current_user)
   end
 
   # GET /polls/1

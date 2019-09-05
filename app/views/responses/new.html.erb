@@ -1,15 +1,15 @@
-<%= form_with(model: @response, local: true, id: 'add_poll') do |form| %>
-  <% if @response.errors.any? %>
+<%= form_with(model: response, local: true, id: 'add_poll') do |form| %>
+  <% if response.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@response.errors.count, "error") %> prohibited this response from being saved:</h2>
+      <h2><%= pluralize(response.errors.count, "error") %> prohibited this response from being saved:</h2>
       <ul>
-      <% @response.errors.full_messages.each do |message| %>
+      <% response.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
-  <p>We are planning for <b><%= @event.event_type %></b> on date <b><%= @event.start_date.strftime("%A, %b %d") %></b>. Please fill your response before this date <b><%= @event.end_date.strftime("%A, %b %d") %></b></p>
+  <p>We are planning for <b><%= event.event_type %></b> on date <b><%= event.start_date.strftime("%A, %b %d") %></b>. Please fill your response before this date <b><%= event.end_date.strftime("%A, %b %d") %></b></p>
   <div class="field">
     <%= form.label :vote, "Yes", :value => "true" %>
     <%= form.radio_button :vote, 'yes', :checked => true %>

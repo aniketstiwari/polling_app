@@ -1,4 +1,8 @@
 class Response < ApplicationRecord
+
+  scope :response_yes_count, -> { where(vote: "yes").count }
+  scope :response_no_count, -> { where(vote: "no").count }
+
   validates :vote, presence: true
 
   belongs_to :event

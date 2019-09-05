@@ -2,21 +2,21 @@
   <div class="row">
     <div class='col-11 offset-1 col-sm-4'>
       <h3>Create Event</h3>
-      <%= render :template => 'events/new'  %>
+      <%= render :template => 'events/new', locals: { event: @presenter.event } %>
     </div>
   </div>
 <% elsif current_user.user? %>
   <div class="container-fluid">
     <div class="row">
       <div class="col-6">
-        <%= pie_chart [["Yes", Response.where(vote: "yes").count], ["No", Response.where(vote: "no").count]], id:'polls'%>
+        <%= pie_chart [["Yes", @presenter.yes_vote_count], ["No", @presenter.no_vote_count]], id:'polls'%>
       </div>
     </div>
-    <% unless current_user.response_exists?(current_user, @event.id) %>
+    <% unless current_user.response_exists?(current_user, @presenter.event.id) %>
       <div class="row">
         <div class='col-11 offset-1 col-sm-4'>
           <h3>New poll</h3>
-          <%= render :template => 'responses/new' %>
+          <%= render :template => 'responses/new', locals: { response: @presenter.response, event: @presenter.event } %>
         </div>
       </div>
     <% end %>
