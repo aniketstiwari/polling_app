@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_04_055531) do
+ActiveRecord::Schema.define(version: 2019_09_05_163229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,15 @@ ActiveRecord::Schema.define(version: 2019_09_04_055531) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.integer "size"
+    t.string "name"
+    t.integer "leader_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["leader_id"], name: "index_groups_on_leader_id"
   end
 
   create_table "polls", force: :cascade do |t|
@@ -51,6 +60,15 @@ ActiveRecord::Schema.define(version: 2019_09_04_055531) do
     t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
+  create_table "user_groups", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_user_groups_on_group_id"
+    t.index ["user_id"], name: "index_user_groups_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -75,4 +93,6 @@ ActiveRecord::Schema.define(version: 2019_09_04_055531) do
   add_foreign_key "responses", "events"
   add_foreign_key "responses", "users"
   add_foreign_key "roles", "users"
+  add_foreign_key "user_groups", "groups"
+  add_foreign_key "user_groups", "users"
 end
