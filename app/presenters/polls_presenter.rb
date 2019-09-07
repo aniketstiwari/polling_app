@@ -4,7 +4,7 @@ class PollsPresenter
   def initialize(user)
     @response = Response.new
     @event = (user.admin? && Event.first.blank?) ? Event.new : Event.last
-    @yes_vote_count = Response.response_yes_count
-    @no_vote_count = Response.response_no_count
+    @yes_vote_count = Response.yes_count
+    @no_vote_count = Response.no_count
   end
 end

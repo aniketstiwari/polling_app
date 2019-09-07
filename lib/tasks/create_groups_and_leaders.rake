@@ -1,41 +1,25 @@
 namespace :create_groups_and_leaders do
   desc "Create dynamic groups and leaders and send email to all users"
   task :create_groups => [:environment] do
-
-    user_ids = User.ids.shuffle
-    users_length = user_ids.length
-    group_iteration = group_size = 0
-
-    if(users_length > 4)
-      (3..100).each do |num|
-        if (users_length % num == 0 || users_length % num == 1)
-          group_size = num
-          break
-        end
-      end 
-    elsif users_length > 1
-      group_size = users_length % 2
-    elsif users_length == 1
-      group_size = 1
-    end
-    ########## Add logic for adding extra 1 of group
-    group_iteration = users_length / group_size
-    groups, group_columns = Array.new(2) { [] }
-    
-    group_iteration.times do |gi|
-      ids = user_ids.first(group_size).shuffle
-      leader_id = ids.sample
-      User.find(leader_id).role.update_attributes(name: "leader")
-      groups << { size: group_size, name: "group_" + gi.to_s, leader_id: leader_id }
-      user_ids = user_ids - ids
-    end
-    group_columns =  [ :size, :name, :leader_id ]
-    user_groups = Group.import group_columns, groups
-    groups = []
-    user_groups.ids.each do |id|
-      groups.push({group_id: id, user_id: leader_id})
-    end
-    group_columns = [:user_id, :group_id]
-    UserGroup.import group_columns, groups
+    user_ids = User.where.not(confirmation_token: nil).ids.shuffle - Role.where(name: 'admin').pluck(:user_id)
+    #user_ids = User.ids.shuffle - Role.where(name: 'admin').pluck(:user_id)
+    group_size = Group.group_division(user_ids)
+    if group_size > 0
+      groups, leader_ids = Group.create_dynamic_groups_array(user_ids, group_size)
+      Role.change_role_to_leader(leader_ids)
+      Group.create_groups_and_user_groups(user_ids, groups)
+      event = Event.where(is_expire: "false").first
+      records = User.select('users.email, groups.name').where(id: leader_ids).joins(:groups).group(:email,'groups.name')
+      leader_records = records.flat_map{|d| [{ group_name: d.name, leader_email: d.email }] }
+      records.each do |record|
+        UserMailer.notify_leaders(record[:leader_email], record[:group_name], event).deliver
+      end
+      user_ids = user_ids - leader_ids
+      user_records = User.select('users.email, CONCAT(users.first_name, users.last_name) as leader_name, groups.name').where(id: user_ids).joins(:groups).group(:email,:leader_name, 'groups.name')
+      filter_records = user_records.flat_map{|d| [{ group_name: d.name, email: d.email, leader_name: d.leader_name }] }
+      filter_records.each do |filter_record|
+        UserMailer.notify_users(filter_record[:email], filter_record[:group_name], filter_record[:leader_name], event).deliver
+      end
+    end## end of if
   end
 end

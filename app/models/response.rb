@@ -1,7 +1,7 @@
 class Response < ApplicationRecord
 
-  scope :response_yes_count, -> { where(vote: "yes").count }
-  scope :response_no_count, -> { where(vote: "no").count }
+  scope :yes_count, -> { where(vote: "yes").count }
+  scope :no_count, -> { where(vote: "no").count }
 
   validates :vote, presence: true
 
