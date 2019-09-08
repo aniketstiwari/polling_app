@@ -44,11 +44,11 @@ gem 'chartkick'
 gem "figaro"
 gem 'devise'
 gem 'pry'
-gem 'cancancan'
 gem 'table_print'
 gem 'whenever', require: false
 gem 'activerecord-import'
 gem 'faker', '~> 1.6', '>= 1.6.6'
+gem 'carrierwave'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -60,8 +60,8 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  #gem 'spring'
+  #gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do

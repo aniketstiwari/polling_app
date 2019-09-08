@@ -1,0 +1,21 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Event Type</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+      <th scope="col">Expire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <th scope="row"><%= event.event_type %></th>
+        <td><%= event.start_date.strftime("%A, %b %d") %></td>
+        <td><%= event.end_date.strftime("%A, %b %d") %></td>
+        <td><%= event.is_expire %></td>
+      </tr>
+    <% end %>
+    <%= link_to 'Back to Dashboard', polls_path, class: 'btn btn-primary button_align' %>
+  </tbody>
+</table>

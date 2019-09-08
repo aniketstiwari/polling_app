@@ -18,6 +18,7 @@
 
  body {
   font-family: 'Josefin Sans', sans-serif;
+  overflow-x: hidden;
  }
 
  .navbar-brand {
@@ -35,4 +36,14 @@
     border-color: transparent !important;
     border: 1px !important;
    }
+ }
+ .center_align {
+  margin: 0 auto;
+  width: 80%;
+  margin-top: 50px;
+ }
+
+ .button_align {
+  margin-bottom: 20px;
+  margin-top: 11px;
  }

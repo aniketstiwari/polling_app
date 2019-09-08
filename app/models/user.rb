@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_one :event
   has_many :user_groups
   has_many :groups, through: :user_groups
+  has_many :user_restaurants
+  has_many :restaurants, through: :user_restaurants
 
   after_create :add_default_role
 

@@ -3,7 +3,7 @@ class PollsPresenter
 
   def initialize(user)
     @response = Response.new
-    @event = (user.admin? && Event.first.blank?) ? Event.new : Event.last
+    @event = Event.is_expire
     @yes_vote_count = Response.yes_count
     @no_vote_count = Response.no_count
   end

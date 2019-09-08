@@ -1,8 +1,8 @@
 <% if current_user.admin? %>
   <div class="row">
     <div class='col-11 offset-1 col-sm-4'>
-      <h3>Create Event</h3>
-      <%= render :template => 'events/new', locals: { event: @presenter.event } %>
+      <%= link_to 'Add events', new_event_path, class: 'btn btn-primary button_align' %>
+      <%= link_to 'Add restaurants', new_restaurant_path, class: 'btn btn-primary button_align' %>
     </div>
   </div>
 <% elsif current_user.user? %>
@@ -21,6 +21,8 @@
       </div>
     <% end %>
   </div>
+<% elsif current_user.leader?  %>
+   <p>hi leader</p>
 <% else %>
   <p>Right now there is no upcoming event. Stay tune we will inform you</p>
 <% end %>

@@ -31,9 +31,9 @@ class Group < ApplicationRecord
         leader_id = group_member_ids.sample
         leader_ids << leader_id
         if gi == group_iteration.size - 1
-          groups << { size: group_size + extra_group, name: "group_" + gi.to_s, leader_id: leader_id }
+          groups << { size: group_size + extra_group, name: "group_" + self.generate_group_name, leader_id: leader_id }
         else
-          groups << { size: group_size, name: "group_" + gi.to_s, leader_id: leader_id }
+          groups << { size: group_size, name: "group_" + self.generate_group_name, leader_id: leader_id }
         end
         user_ids = user_ids - group_member_ids
       end
@@ -54,6 +54,10 @@ class Group < ApplicationRecord
       groups.push({group_id: user_groups.ids.last, user_id: user_ids.last}) unless extra_group.zero?
       group_columns = [:user_id, :group_id]
       UserGroup.import group_columns, groups
+    end
+
+    def generate_group_name
+      (0...10).map { ('a'..'z').to_a[rand(26)] }.join
     end
   end
 end
