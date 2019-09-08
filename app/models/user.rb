@@ -36,6 +36,10 @@ class User < ApplicationRecord
     Response.exists?(user_id: user.id, event_id: event_id)
   end
 
+  def group_notified(user_id, restaurant_id)
+    UserRestaurant.exists?(user_id: user_id, restaurant_id: restaurant_id)
+  end
+
   def self.select_and_notify_leaders(leader_ids, event)
     records = self.select('users.email, groups.name').where(id: leader_ids).joins(:groups).group(:email,'groups.name')
       leader_records = records.flat_map{|d| [{ group_name: d.name, leader_email: d.email }] }
@@ -50,6 +54,10 @@ class User < ApplicationRecord
     filter_records.each do |filter_record|
       UserMailer.notify_users(filter_record[:email], filter_record[:group_name], filter_record[:leader_name], event).deliver
     end
+  end
+
+  def self.select_users_to_notify_for_restaurants(user)
+    joins(:user_groups).joins(:groups).references(:user_groups).where('user_groups.group_id': user.groups.last.id).select('users.email, CONCAT(users.first_name, users.last_name) as leader_name ,groups.name ')
   end
 
   private

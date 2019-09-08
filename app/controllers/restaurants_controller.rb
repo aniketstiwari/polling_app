@@ -11,10 +11,17 @@ class RestaurantsController < ApplicationController
   def create
     @restaurant = Restaurant.new(restaurant_params)
     if @restaurant.save
-      @restaurant.user_restaurants.create(user_id: current_user.id)
       redirect_to restaurants_path
     else
       render :new
+    end
+  end
+
+  def notifyuser
+    @restaurant = Restaurant.find(params["restaurant_id"])
+    @restaurant.user_restaurants.create(user_id: current_user.id)
+    User.select_users_to_notify_for_restaurants(current_user).each do |object|
+      UserMailer.notify_leader_groups(object.email, object.leader_name, object.name).deliver
     end
   end
 

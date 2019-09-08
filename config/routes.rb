@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :events, only: [:new, :create, :index]
   resources :responses, only: [:new, :create]
   resources :restaurants, only: [:new, :create, :index]
+  post "/notifyuser" => "restaurants#notifyuser"
 end

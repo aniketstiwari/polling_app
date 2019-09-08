@@ -21,8 +21,12 @@
       </div>
     <% end %>
   </div>
-<% elsif current_user.leader?  %>
-   <p>hi leader</p>
+<% elsif current_user.leader? %>
+  <% unless current_user.group_notified(current_user.id, current_user.user_restaurants.last&.restaurant_id) %>
+    <%= render 'restaurants/restaurant_list', restaurants: @presenter.restaurants, restaurant: @presenter.restaurant %>
+  <% else %>
+    <p> Your response has been recorded successfully. And your group has been notified </p>
+  <% end %>
 <% else %>
   <p>Right now there is no upcoming event. Stay tune we will inform you</p>
 <% end %>

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row">
+    <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h1 class="gallery-title">Restaurants gallery</h1>
+    </div>
+    <% restaurants.each do |restaurant_obj| %>
+      <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter thumb">
+        <img src="<%= restaurant_obj.attachment_url %>" class="img-responsive">
+        <label><%= restaurant_obj.name %></label>
+        <input type="radio" name="restaurant" value="<%= restaurant_obj.name %>"> <br>
+        <input type="hidden" id="custId<%= restaurant_obj.id%>" name="custId" value="<%= restaurant_obj.id%>">
+      </div>
+    <% end %>
+  </div>
+  <input type="submit" class='btn btn-success' id="submit">
+</div>
+<script type="text/javascript">
+  $('#submit').click(function(){
+    var name = $('input[name=restaurant]:checked').val();
+    var restaurant_id = $('input[name=restaurant]:checked').closest('div').find('input:hidden').val();
+    $.ajax({
+        type: "POST",
+        url: '/notifyuser', //sumbits it to the given url of the form
+        data: {name: name, restaurant_id: restaurant_id},
+        dataType: "html",
+        success: function (data) {
+           location.reload();  
+        }
+    })
+    //return false; // prevents normal behaviour
+});
+</script>
