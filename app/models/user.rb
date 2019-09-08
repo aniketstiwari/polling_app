@@ -34,6 +34,22 @@ class User < ApplicationRecord
     Response.exists?(user_id: user.id, event_id: event_id)
   end
 
+  def self.select_and_notify_leaders(leader_ids, event)
+    records = self.select('users.email, groups.name').where(id: leader_ids).joins(:groups).group(:email,'groups.name')
+      leader_records = records.flat_map{|d| [{ group_name: d.name, leader_email: d.email }] }
+      leader_records.each do |leader_record|
+        UserMailer.notify_leaders(leader_record[:leader_email], leader_record[:group_name], event).deliver
+    end
+  end
+
+  def self.select_and_notify_users(user_ids, event)
+    user_records = self.select('users.email, CONCAT(users.first_name, users.last_name) as leader_name, groups.name').where(id: user_ids).joins(:groups).group(:email, :leader_name, 'groups.name')
+    filter_records = user_records.flat_map{|d| [{ group_name: d.name, email: d.email, leader_name: d.leader_name }] }
+    filter_records.each do |filter_record|
+      UserMailer.notify_users(filter_record[:email], filter_record[:group_name], filter_record[:leader_name], event).deliver
+    end
+  end
+
   private
 
   def add_default_role
