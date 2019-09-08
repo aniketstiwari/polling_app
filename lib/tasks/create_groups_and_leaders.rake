@@ -12,6 +12,6 @@ namespace :create_groups_and_leaders do
       User.select_and_notify_leaders(leader_ids, event)
       user_ids = user_ids - leader_ids
       User.select_and_notify_users(user_ids, event)
-    end## end of if
+    end
   end
 end
