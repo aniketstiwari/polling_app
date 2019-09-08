@@ -35,13 +35,6 @@ ActiveRecord::Schema.define(version: 2019_09_05_163229) do
     t.index ["leader_id"], name: "index_groups_on_leader_id"
   end
 
-  create_table "polls", force: :cascade do |t|
-    t.string "name"
-    t.binary "laptop"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "responses", force: :cascade do |t|
     t.bigint "event_id"
     t.bigint "user_id"
