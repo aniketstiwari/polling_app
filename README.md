@@ -1,24 +1,20 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a polling app. To run this app please follow the below steps
 
-Things you may want to cover:
 
-* Ruby version
+* Install posgres in your machine
 
-* System dependencies
+* bundle install
 
-* Configuration
+* rails db:create
 
-* Database creation
+* rails db:seed
 
-* Database initialization
+* rails db:migrate
 
-* How to run the test suite
+* bundle exec figaro install
 
-* Services (job queues, cache servers, search engines, etc.)
+* For polling I am using pusher so login and get your credentials from this link https://dashboard.pusher.com/accounts/sign_in. And provide it in your application.yml file 
 
-* Deployment instructions
-
-* ...
+* Lastly, for sending email you need to have a provide a gmail account email and password in your application.yml file
