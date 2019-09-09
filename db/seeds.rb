@@ -6,6 +6,16 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+user = user = User.new(
+    first_name: 'admin',
+    last_name:  'user',
+    email:     'adminuser@gmail.com',
+    department: "it",
+    password:  "password123$")
+user.skip_confirmation!
+user.save
+user.role.update_attributes(name: 'admin')
+
 20.times do |n|
   user = User.new(
     first_name: Faker::Name.first_name,
@@ -15,3 +25,4 @@
     password:  "password")
   user.save
 end
+
