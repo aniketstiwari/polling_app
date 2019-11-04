@@ -47,7 +47,7 @@ gem 'pry'
 gem 'table_print'
 gem 'whenever', require: false
 gem 'activerecord-import'
-gem 'faker', '~> 1.6', '>= 1.6.6'
+gem 'faker', '~> 2.7'
 gem 'carrierwave'
 
 group :development, :test do
